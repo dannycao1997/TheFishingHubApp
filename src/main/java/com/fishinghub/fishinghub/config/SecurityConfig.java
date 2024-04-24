@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -28,21 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http    .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/api/users/signup", "/api/users/login").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic();
     }
 
 
