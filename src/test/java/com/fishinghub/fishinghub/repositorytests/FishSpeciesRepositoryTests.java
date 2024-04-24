@@ -1,4 +1,4 @@
 package com.fishinghub.fishinghub.repositorytests;
 
-public class FishSpeciesRepositoryTEsts {
+public class FishSpeciesRepositoryTests {
 }

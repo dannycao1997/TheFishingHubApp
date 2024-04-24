@@ -28,12 +28,13 @@ public class PostRepositoryTests {
     public void setUp() {
 
         // setting up a user for the post tests
-
+        userRepository.deleteAll();
         testUser = new User();
-        testUser.setUsername("fisssssssh123");
-        testUser.setPassword("passssssword");
-        testUser.setEmail("fishssss123@example.com");
+        testUser.setUsername("usernametest");
+        testUser.setPassword("passwordtest");
+        testUser.setEmail("fis123test@example.com");
         userRepository.save(testUser);
+
     }
 
     @Test
@@ -46,7 +47,7 @@ public class PostRepositoryTests {
         assertNotNull(savedPost);
         assertNotNull(savedPost.getId());
         assertEquals("LIT fishing trip!", savedPost.getContent());
-        assertNotNull(savedPost.getUser());
+        assertEquals(testUser.getId(), savedPost.getUser().getId());
     }
 
     @Test
