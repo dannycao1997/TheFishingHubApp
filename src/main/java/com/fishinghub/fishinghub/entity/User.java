@@ -3,7 +3,10 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+})
 
 public class User {
     @Id
@@ -83,4 +86,6 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
+
+
 }
