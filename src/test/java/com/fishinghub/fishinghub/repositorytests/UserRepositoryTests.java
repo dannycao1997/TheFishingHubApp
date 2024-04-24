@@ -2,38 +2,43 @@ package com.fishinghub.fishinghub.repositorytests;
 
 import com.fishinghub.fishinghub.entity.User;
 import com.fishinghub.fishinghub.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.runner.RunWith;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-@DataJpaTest
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class UserRepositoryTests {
 
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    public void findByUsername() {
+    public void testFindByUsername() {
+        User user = new User();
+        user.setUsername("cao");
+        user.setPassword("Ildsdsdovefishing");
+        user.setEmail("danssddny@gmail.com");
+        userRepository.save(user);
 
-        //setup
-        User user1 = new User();
-        user1.setUsername("Danny");
-        user1.setPassword("Ilovefishing");
-        userRepository.save(user1);
+        User found = userRepository.findByUsername("cao").orElse(null);
 
-        //test findbyusername
-        User found = userRepository.findByUsername("Danny").orElse(null);
-        Assertions.assertNotNull(found);
-        Assertions.assertEquals("Danny", found.getUsername());
-
+        assertNotNull(found);
+        assertEquals("cao", found.getUsername());
     }
 
-    
+    @Test
+    public void testSaveUser() {
+        User user = new User();
+        user.setUsername("hesdsdllo");
+        user.setPassword("123dsd456");
+        user.setEmail("fishermdsassdsdandan@example.com");
+        User savedUser = userRepository.save(user);
 
-
-
-
+        assertNotNull(savedUser);
+        assertNotNull(savedUser.getId());
+    }
 }

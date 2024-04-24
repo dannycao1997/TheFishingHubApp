@@ -4,6 +4,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,15 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Catch> catches;
 
+    // constructor
+    public User(){
+    }
 
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 
     // Getters and Setters
     public List<Post> getPosts() {
