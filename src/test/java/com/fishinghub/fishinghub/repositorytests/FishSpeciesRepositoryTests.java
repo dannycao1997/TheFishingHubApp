@@ -23,7 +23,6 @@ public class FishSpeciesRepositoryTests {
 
     @Before
     public void setUp() {
-        fishSpeciesRepository.deleteAll();
     }
 
     @Test
@@ -54,7 +53,7 @@ public class FishSpeciesRepositoryTests {
     @Test
     public void testUpdateFishSpecies() {
         FishSpecies fishSpecies = new FishSpecies();
-        fishSpecies.setName("Large Mouth Bass");
+        fishSpecies.setName("Largemouth Bass");
         fishSpecies.setDescription("Common freshwater fish known for being a challenging catch.");
         fishSpecies = fishSpeciesRepository.save(fishSpecies);
 

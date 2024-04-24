@@ -21,7 +21,6 @@ public class LocationRepositoryTests {
 
     @Before
     public void setUp() {
-        locationRepository.deleteAll();
     }
 
     @Test
