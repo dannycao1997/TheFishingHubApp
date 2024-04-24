@@ -89,8 +89,8 @@ public class UserRepositoryTests {
     @Test
     public void testFindAllUsers() {
         // save multiple users
-        userRepository.save(new User("asayn1", "bbyq1", "asayn1@example.com"));
-        userRepository.save(new User("shijiyn1", "yugiyoh1", "shiyjin1@example.com"));
+        userRepository.save(new User("asan", "bbyq", "asan1@example.com"));
+        userRepository.save(new User("shijin", "yugiyoh", "shijin1@example.com"));
 
         // retrieve all users
         List<User> users = userRepository.findAll();
