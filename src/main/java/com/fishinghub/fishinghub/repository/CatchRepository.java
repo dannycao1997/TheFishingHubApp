@@ -1,4 +1,8 @@
 package com.fishinghub.fishinghub.repository;
+import com.fishinghub.fishinghub.entity.Catch;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CatchRepository {
+@Repository
+public interface CatchRepository extends JpaRepository<Catch, Long> {
 }
