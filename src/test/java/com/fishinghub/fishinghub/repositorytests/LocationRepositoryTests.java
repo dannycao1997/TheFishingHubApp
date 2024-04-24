@@ -21,7 +21,6 @@ public class LocationRepositoryTests {
 
     @Before
     public void setUp() {
-        // Clean the database before each test to avoid test contamination
         locationRepository.deleteAll();
     }
 
