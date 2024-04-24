@@ -1,5 +1,4 @@
 package com.fishinghub.fishinghub.repositorytests;
-
 import com.fishinghub.fishinghub.entity.User;
 import com.fishinghub.fishinghub.repository.UserRepository;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +15,7 @@ public class UserRepositoryTests {
     @Autowired
     private UserRepository userRepository;
 
+    // ISSUE WITH TEST NEED TO CREATE NEW USERS EVERY TEST
     @Test
     public void testFindByUsername() {
         User user = new User();
@@ -42,3 +42,5 @@ public class UserRepositoryTests {
         assertNotNull(savedUser.getId());
     }
 }
+
+
