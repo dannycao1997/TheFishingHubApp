@@ -14,7 +14,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder; // need to debug
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User registerUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
