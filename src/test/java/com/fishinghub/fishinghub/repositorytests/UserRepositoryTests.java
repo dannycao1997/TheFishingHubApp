@@ -20,7 +20,7 @@ public class UserRepositoryTests {
     public void testFindByUsername() {
         User user = new User();
         user.setUsername("cao");
-        user.setPassword("Ildsdsdovefishing");
+        user.setPassword("Ildsdsdovefishdsdsdsing");
         user.setEmail("danssddny@gmail.com");
         userRepository.save(user);
 
@@ -33,7 +33,7 @@ public class UserRepositoryTests {
     @Test
     public void testSaveUser() {
         User user = new User();
-        user.setUsername("hesdsdllo");
+        user.setUsername("hessssdsdllo");
         user.setPassword("123dsd456");
         user.setEmail("fishermdsassdsdandan@example.com");
         User savedUser = userRepository.save(user);

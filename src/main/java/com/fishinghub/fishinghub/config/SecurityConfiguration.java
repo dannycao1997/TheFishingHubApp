@@ -35,9 +35,8 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // disabling csrf protection
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/users/signup", "/api/users/login").permitAll()
-                        .anyRequest().authenticated()) // requiring authentication for all other requestss
-                .httpBasic(httpBasic -> {}) //enabling basic http authentication
+                        .anyRequest().permitAll()) // permit all requests without authentication
+                .httpBasic(httpBasic -> {}) // keeping basic HTTP authentication setup
                 .build();
     }
 }
