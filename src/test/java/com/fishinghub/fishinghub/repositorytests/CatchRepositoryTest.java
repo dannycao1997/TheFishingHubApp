@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FishinghubApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class CatchRepositoryTests {
+public class CatchRepositoryTest {
 
     @Autowired
     private CatchRepository catchRepository;

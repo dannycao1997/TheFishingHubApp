@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = FishinghubApplication.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)  // Specify NONE if not testing the web environment
-public class FishSpeciesRepositoryTests {
+public class FishSpeciesRepositoryTest {
 
     @Autowired
     private FishSpeciesRepository fishSpeciesRepository;
