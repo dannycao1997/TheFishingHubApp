@@ -79,7 +79,7 @@ public class CatchControllerTest {
     @Test
     @WithMockUser(username = "user", roles = "USER")
     public void testUpdateCatch() throws Exception {
-        given(catchService.updateCatch(any(Catch.class))).willReturn(testCatch);
+        given(catchService.updateCatch(any(Long.class), any(Catch.class))).willReturn(testCatch);
         mockMvc.perform(put("/api/catches/{id}", testCatch.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testCatch)))

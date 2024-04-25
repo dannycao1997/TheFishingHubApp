@@ -33,11 +33,15 @@ public class CatchController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Catch> updateCatch(@RequestBody Catch catchRecord, @PathVariable Long id) {
-        catchRecord.setId(id);
-        Catch updatedCatch = catchService.updateCatch(catchRecord);
-        return ResponseEntity.ok(updatedCatch);
+    public ResponseEntity<Catch> updateCatch(@RequestBody Catch updatedCatch, @PathVariable Long id) {
+        updatedCatch.setId(id);
+        Catch savedCatch = catchService.updateCatch(id, updatedCatch);
+        return ResponseEntity.ok(savedCatch);
     }
+
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCatch(@PathVariable Long id) {

@@ -68,11 +68,11 @@ public class CatchServiceTest {
 
     @Test
     public void testUpdateCatch() {
-        when(catchRepository.save(testCatch)).thenReturn(testCatch);
-        testCatch.setQuantity(10);
-        Catch updatedCatch = catchService.updateCatch(testCatch);
+        when(catchRepository.findById(1L)).thenReturn(Optional.of(testCatch));
+        when(catchRepository.save(any(Catch.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        Catch updatedCatch = catchService.updateCatch(1L, testCatch);
         assertNotNull(updatedCatch);
-        assertEquals(10, updatedCatch.getQuantity());
+        assertEquals(5, updatedCatch.getQuantity());
         verify(catchRepository).save(testCatch);
     }
 

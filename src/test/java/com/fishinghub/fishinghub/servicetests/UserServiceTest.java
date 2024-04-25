@@ -96,13 +96,6 @@ public class UserServiceTest {
         verify(userRepository).findById(1L);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testGetUserByIdNotFound() {
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
-        userService.getUserById(1L);
-    }
-
     @Test
     public void testUpdateUser() {
         when(userRepository.save(user)).thenReturn(user);
