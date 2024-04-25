@@ -2,6 +2,7 @@ package com.fishinghub.fishinghub.controller;
 import com.fishinghub.fishinghub.entity.Post;
 import com.fishinghub.fishinghub.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,8 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        Post createdPost = postService.createPost(post);
-        return ResponseEntity.ok(createdPost);
+        Post newPost = postService.createPost(post);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newPost);
     }
 
     @GetMapping

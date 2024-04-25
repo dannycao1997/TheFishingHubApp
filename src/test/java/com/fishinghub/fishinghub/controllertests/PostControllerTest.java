@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,6 +22,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -47,17 +49,21 @@ public class PostControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "user", roles = "USER")
     public void createPostTest() throws Exception {
         given(postService.createPost(any(Post.class))).willReturn(post);
 
         mockMvc.perform(post("/api/posts")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(post)))
-                .andExpect(status().isOk())
+                        .content(objectMapper.writeValueAsString(post))
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer token") // Replace "token" with the actual token if required
+                        .with(csrf())) // Include CSRF token in the request
+                .andExpect(status().isCreated()) // Expecting 201 status code
                 .andExpect(jsonPath("$.id").value(post.getId()))
                 .andExpect(jsonPath("$.content").value(post.getContent()));
     }
+
+
 
     @Test
     @WithMockUser
@@ -88,7 +94,8 @@ public class PostControllerTest {
 
         mockMvc.perform(put("/api/posts/{id}", post.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(post)))
+                        .content(objectMapper.writeValueAsString(post))
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(post.getId()))
                 .andExpect(jsonPath("$.content").value(post.getContent()));
@@ -97,7 +104,8 @@ public class PostControllerTest {
     @Test
     @WithMockUser
     public void deletePostTest() throws Exception {
-        mockMvc.perform(delete("/api/posts/{id}", post.getId()))
+        mockMvc.perform(delete("/api/posts/{id}", post.getId())
+                        .with(csrf()))
                 .andExpect(status().isNoContent());
 
         verify(postService).deletePost(post.getId());

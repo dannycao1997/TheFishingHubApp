@@ -26,7 +26,7 @@ public class CatchController {
                 .toUri();
         return ResponseEntity.created(location).body(newCatch);
     }
-    
+
     @GetMapping
     public ResponseEntity<List<Catch>> getAllCatches() {
         List<Catch> catches = catchService.getAllCatches();
