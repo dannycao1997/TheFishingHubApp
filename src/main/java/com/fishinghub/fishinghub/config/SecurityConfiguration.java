@@ -34,9 +34,13 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable) // disabling csrf protection
-                .authorizeHttpRequests(authz -> authz
-                        .anyRequest().permitAll()) // permit all requests without authentication
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/catches/**").authenticated()
+                        .anyRequest().permitAll())
                 .httpBasic(httpBasic -> {}) // keeping basic HTTP authentication setup
                 .build();
     }
+
 }
