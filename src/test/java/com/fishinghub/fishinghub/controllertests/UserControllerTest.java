@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -56,7 +57,8 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/api/users/signup")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
+                        .content(objectMapper.writeValueAsString(user))
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(user.getUsername()));
     }
@@ -68,7 +70,8 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/api/users/login")
                         .param("username", user.getUsername())
-                        .param("password", "password123"))
+                        .param("password", "password123")
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(user.getUsername()));
     }
@@ -79,7 +82,8 @@ public class UserControllerTest {
         List<User> users = Arrays.asList(user);
         given(userService.getAllUsers()).willReturn(users);
 
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/users")
+                 .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].username").value(user.getUsername()));
     }
@@ -89,7 +93,8 @@ public class UserControllerTest {
     public void getUserByIdTest() throws Exception {
         given(userService.getUserById(user.getId())).willReturn(user);
 
-        mockMvc.perform(get("/api/users/{id}", user.getId()))
+        mockMvc.perform(get("/api/users/{id}", user.getId())
+                 .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(user.getUsername()));
     }
@@ -101,7 +106,8 @@ public class UserControllerTest {
 
         mockMvc.perform(put("/api/users/{id}", user.getId())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
+                        .content(objectMapper.writeValueAsString(user))
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(user.getUsername()));
     }
@@ -109,7 +115,8 @@ public class UserControllerTest {
     @Test
     @WithMockUser
     public void deleteUserTest() throws Exception {
-        mockMvc.perform(delete("/api/users/{id}", user.getId()))
+        mockMvc.perform(delete("/api/users/{id}", user.getId())
+                        .with(csrf()))
                 .andExpect(status().isNoContent());
 
         verify(userService).deleteUser(user.getId());
