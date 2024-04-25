@@ -20,6 +20,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(CatchController.class)
 public class CatchControllerTest {
@@ -34,8 +35,6 @@ public class CatchControllerTest {
     private ObjectMapper objectMapper;
 
     private Catch testCatch;
-
-
 
     @Before
     public void setUp() {

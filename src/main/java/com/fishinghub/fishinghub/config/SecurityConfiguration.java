@@ -2,6 +2,7 @@ package com.fishinghub.fishinghub.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,6 +39,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/catches/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/catches").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/api/catches/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/catches/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/catches/**").hasRole("USER")
                         .anyRequest().permitAll())
                 .httpBasic(httpBasic -> {}) // keeping basic HTTP authentication setup
                 .build();
