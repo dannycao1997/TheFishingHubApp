@@ -25,7 +25,7 @@ public class Catch {
     @Min(1)
     private int quantity;
 
-
+    public Catch() {}
 
     // Getters and Setters
     public Long getId() {

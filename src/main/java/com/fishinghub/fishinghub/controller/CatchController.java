@@ -4,7 +4,9 @@ import com.fishinghub.fishinghub.service.CatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -17,9 +19,14 @@ public class CatchController {
     @PostMapping
     public ResponseEntity<Catch> logCatch(@RequestBody Catch catchRecord) {
         Catch newCatch = catchService.logCatch(catchRecord);
-        return ResponseEntity.ok(newCatch);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(newCatch.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(newCatch);
     }
-
+    
     @GetMapping
     public ResponseEntity<List<Catch>> getAllCatches() {
         List<Catch> catches = catchService.getAllCatches();
@@ -38,10 +45,6 @@ public class CatchController {
         Catch savedCatch = catchService.updateCatch(id, updatedCatch);
         return ResponseEntity.ok(savedCatch);
     }
-
-
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCatch(@PathVariable Long id) {

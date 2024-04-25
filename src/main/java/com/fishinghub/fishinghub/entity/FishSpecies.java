@@ -14,7 +14,8 @@ public class FishSpecies {
     @Column(nullable = false)
     private String description;
 
-
+    public FishSpecies() {
+    }
     // Getters and Setters
     public Long getId() {
         return id;

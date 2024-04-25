@@ -20,6 +20,8 @@ public class Location {
     @Column(nullable = false)
     private double longitude;
 
+    public Location() {
+    }
 
     // Getters and Setters
     public Long getId() {

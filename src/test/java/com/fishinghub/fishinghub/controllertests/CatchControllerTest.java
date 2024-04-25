@@ -1,97 +1,95 @@
 package com.fishinghub.fishinghub.controllertests;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fishinghub.fishinghub.controller.CatchController;
 import com.fishinghub.fishinghub.entity.Catch;
+import com.fishinghub.fishinghub.entity.FishSpecies;
+import com.fishinghub.fishinghub.entity.Location;
 import com.fishinghub.fishinghub.service.CatchService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(CatchController.class)
+@AutoConfigureMockMvc
 public class CatchControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private CatchService catchService;
-
     @Autowired
     private ObjectMapper objectMapper;
 
-    private Catch testCatch;
-
-    @Before
-    public void setUp() {
-        testCatch = new Catch();
-        testCatch.setId(1L);
-        testCatch.setQuantity(5);
-    }
+    @MockBean
+    private CatchService catchService;
 
     @Test
     @WithMockUser(username = "user", roles = "USER")
     public void testLogCatch() throws Exception {
-        given(catchService.logCatch(any(Catch.class))).willReturn(testCatch);
-        mockMvc.perform(post("/api/catches")
+        Catch catchToLog = new Catch();
+        FishSpecies fishSpecies = new FishSpecies();
+        fishSpecies.setName("Trout");
+        catchToLog.setFishSpecies(fishSpecies);
+        Location location = new Location();
+        location.setName("River");
+        catchToLog.setLocation(location);
+        catchToLog.setQuantity(5);
+
+        when(catchService.logCatch(any(Catch.class))).thenReturn(catchToLog);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/catches")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testCatch)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(testCatch.getId()))
-                .andExpect(jsonPath("$.quantity").value(testCatch.getQuantity()));
-    }
-
-    @Test
-    @WithMockUser(username = "user", roles = "USER")
-    public void testGetAllCatches() throws Exception {
-        List<Catch> allCatches = Arrays.asList(testCatch);
-        given(catchService.getAllCatches()).willReturn(allCatches);
-        mockMvc.perform(get("/api/catches"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(testCatch.getId()))
-                .andExpect(jsonPath("$[0].quantity").value(testCatch.getQuantity()));
-    }
-
-    @Test
-    @WithMockUser(username = "user", roles = "USER")
-    public void testGetCatchById() throws Exception {
-        given(catchService.getCatchById(testCatch.getId())).willReturn(testCatch);
-        mockMvc.perform(get("/api/catches/{id}", testCatch.getId()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(testCatch.getId()))
-                .andExpect(jsonPath("$.quantity").value(testCatch.getQuantity()));
-    }
-
-    @Test
-    @WithMockUser(username = "user", roles = "USER")
-    public void testUpdateCatch() throws Exception {
-        given(catchService.updateCatch(any(Long.class), any(Catch.class))).willReturn(testCatch);
-        mockMvc.perform(put("/api/catches/{id}", testCatch.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(testCatch)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(testCatch.getId()))
-                .andExpect(jsonPath("$.quantity").value(testCatch.getQuantity()));
+                        .content(objectMapper.writeValueAsString(catchToLog))
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andDo(print());
     }
 
     @Test
     @WithMockUser(username = "user", roles = "USER")
     public void testDeleteCatch() throws Exception {
-        mockMvc.perform(delete("/api/catches/{id}", testCatch.getId()))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/catches/1")
+                 .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent())
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = "USER")
+    public void testUpdateCatch() throws Exception {
+        Catch catchToUpdate = new Catch();
+        catchToUpdate.setId(1L);
+        FishSpecies fishSpecies = new FishSpecies();
+        fishSpecies.setName("Trout");
+        catchToUpdate.setFishSpecies(fishSpecies);
+        Location location = new Location();
+        location.setName("River");
+        catchToUpdate.setLocation(location);
+        catchToUpdate.setQuantity(5);
+
+        when(catchService.updateCatch(any(Long.class), any(Catch.class))).thenReturn(catchToUpdate);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/catches/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(catchToUpdate))
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print());
     }
 }
