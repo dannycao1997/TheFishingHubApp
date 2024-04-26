@@ -18,6 +18,9 @@ public class WeatherController {
     @GetMapping
     public ResponseEntity<String> getWeather(@RequestParam String location) {
         String weatherInfo = weatherService.getWeatherInfo(location);
+        if (weatherInfo.startsWith("Error:")) {
+            return ResponseEntity.internalServerError().body(weatherInfo);
+        }
         return ResponseEntity.ok(weatherInfo);
     }
 }
