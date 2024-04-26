@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import CommunityFeed from './components/CommunityFeed';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import FishSpecies from './components/FishSpecies';
+import InteractiveMap from "./components/InteractiveMap";
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <code>I HATE ANDY</code>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+        <CommunityFeed/>
+          <FishSpecies/>
+          <InteractiveMap/>
+      </div>
   );
 }
 
