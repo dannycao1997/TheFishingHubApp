@@ -9,26 +9,14 @@ import java.util.Optional;
 @Service
 public class LocationService {
 
-    private final LocationRepository locationRepository;
-
     @Autowired
-    public LocationService(LocationRepository locationRepository) {
-        this.locationRepository = locationRepository;
-    }
+    private LocationRepository locationRepository;
 
     public List<Location> getAllLocations() {
         return locationRepository.findAll();
     }
 
-    public Optional<Location> getLocationById(Long id) {
-        return locationRepository.findById(id);
-    }
-
-    public Location saveLocation(Location location) {
-        return locationRepository.save(location);
-    }
-
-    public void deleteLocationById(Long id) {
-        locationRepository.deleteById(id);
+    public Location getLocationById(Long id) {
+        return locationRepository.findById(id).orElse(null);
     }
 }
