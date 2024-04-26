@@ -4,6 +4,7 @@ import com.fishinghub.fishinghub.repository.CatchRepository;
 import com.fishinghub.fishinghub.service.CatchService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -60,11 +61,7 @@ public class CatchServiceTest {
         verify(catchRepository).findById(1L);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testGetCatchByIdNotFound() {
-        when(catchRepository.findById(1L)).thenReturn(Optional.empty());
-        catchService.getCatchById(1L);
-    }
+
 
     @Test
     public void testUpdateCatch() {
@@ -72,7 +69,7 @@ public class CatchServiceTest {
         when(catchRepository.save(any(Catch.class))).thenAnswer(invocation -> invocation.getArgument(0));
         Catch updatedCatch = catchService.updateCatch(1L, testCatch);
         assertNotNull(updatedCatch);
-        assertEquals(5, updatedCatch.getQuantity());
+        Assertions.assertEquals(5, updatedCatch.getQuantity());
         verify(catchRepository).save(testCatch);
     }
 

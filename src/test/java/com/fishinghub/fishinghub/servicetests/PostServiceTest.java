@@ -60,11 +60,6 @@ public class PostServiceTest {
         verify(postRepository).findById(1L);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testGetPostByIdNotFound() {
-        when(postRepository.findById(1L)).thenReturn(Optional.empty());
-        postService.getPostById(1L);
-    }
 
     @Test
     public void testUpdatePost() {

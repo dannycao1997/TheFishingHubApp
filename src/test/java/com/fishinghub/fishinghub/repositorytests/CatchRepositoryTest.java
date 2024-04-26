@@ -10,6 +10,7 @@ import com.fishinghub.fishinghub.repository.LocationRepository;
 import com.fishinghub.fishinghub.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -52,7 +53,6 @@ public class CatchRepositoryTest {
         testFishSpecies.setName("Trout");
         testFishSpecies.setDescription("A popular freshwater fish.");
         testLocation.setName("Lake Mystery");
-        testLocation.setDescription("Located in the unknown.");
         testLocation.setLatitude(45.1234);
         testLocation.setLongitude(-123.4567);
 
@@ -72,7 +72,7 @@ public class CatchRepositoryTest {
 
         assertNotNull(savedCatch);
         assertNotNull(savedCatch.getId());
-        assertEquals(3, savedCatch.getQuantity());
+        Assertions.assertEquals(3, savedCatch.getQuantity());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class CatchRepositoryTest {
         Optional<Catch> foundCatch = catchRepository.findById(catchRecord.getId());
 
         assertTrue(foundCatch.isPresent());
-        assertEquals(2, foundCatch.get().getQuantity());
+        Assertions.assertEquals(2, foundCatch.get().getQuantity());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class CatchRepositoryTest {
         toUpdate.setQuantity(7);
         Catch updatedCatch = catchRepository.save(toUpdate);
 
-        assertEquals(7, updatedCatch.getQuantity());
+        Assertions.assertEquals(7, updatedCatch.getQuantity());
     }
 
     @Test

@@ -18,7 +18,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
     @OneToMany(mappedBy = "user")
@@ -82,6 +82,4 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 }

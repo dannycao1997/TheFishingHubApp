@@ -4,6 +4,7 @@ import com.fishinghub.fishinghub.entity.Location;
 import com.fishinghub.fishinghub.repository.LocationRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +28,6 @@ public class LocationRepositoryTest {
     public void testSaveLocation() {
         Location location = new Location();
         location.setName("Lake Tahoe");
-        location.setDescription("Lake in California Nevada");
         location.setLatitude(39.0968);
         location.setLongitude(-120.0324);
         Location savedLocation = locationRepository.save(location);
@@ -41,7 +41,6 @@ public class LocationRepositoryTest {
     public void testFindLocationById() {
         Location location = new Location();
         location.setName("Yellowstone Lake");
-        location.setDescription("Lake located in Yellowstone National Park");
         location.setLatitude(44.3963);
         location.setLongitude(-110.3666);
         location = locationRepository.save(location);
@@ -56,7 +55,6 @@ public class LocationRepositoryTest {
     public void testUpdateLocation() {
         Location location = new Location();
         location.setName("Crater Lake");
-        location.setDescription("Lake in Oregon");
         location.setLatitude(42.9446);
         location.setLongitude(-122.1090);
         location = locationRepository.save(location);
@@ -64,17 +62,15 @@ public class LocationRepositoryTest {
         Location toUpdate = locationRepository.findById(location.getId()).orElse(null);
         assertNotNull(toUpdate);
 
-        toUpdate.setDescription("Deepest lake in the United States");
         Location updatedLocation = locationRepository.save(toUpdate);
 
-        assertEquals("Deepest lake in the United States", updatedLocation.getDescription());
+        Assertions.assertEquals("Crater Lake", updatedLocation.getName());
     }
 
     @Test
     public void testDeleteLocation() {
         Location location = new Location();
         location.setName("Mono Lake");
-        location.setDescription("Salty lake located in Cali");
         location.setLatitude(38.0165);
         location.setLongitude(-119.0093);
         location = locationRepository.save(location);
@@ -90,13 +86,11 @@ public class LocationRepositoryTest {
     public void testFindAllLocations() {
         Location loc1 = new Location();
         loc1.setName("Mono Lake");
-        loc1.setDescription("Salty lake located in Cali");
         loc1.setLatitude(38.0165);
         loc1.setLongitude(-119.0093);
 
         Location loc2 = new Location();
         loc2.setName("Lake Erie");
-        loc2.setDescription("4th largest of the Great Lakes in the States");
         loc2.setLatitude(42.2);
         loc2.setLongitude(-81.2);
 
