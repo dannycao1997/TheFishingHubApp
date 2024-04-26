@@ -10,12 +10,8 @@ import java.util.List;
 @Service
 public class CatchService {
 
-    private final CatchRepository catchRepository;
-
     @Autowired
-    public CatchService(CatchRepository catchRepository) {
-        this.catchRepository = catchRepository;
-    }
+    private CatchRepository catchRepository;
 
     public Catch logCatch(Catch catchRecord) {
         return catchRepository.save(catchRecord);
@@ -26,20 +22,21 @@ public class CatchService {
     }
 
     public Catch getCatchById(Long id) {
+        return catchRepository.findById(id).orElse(null);
+    }
+
+    public Catch updateCatch(Long id, Catch newCatch) {
         return catchRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Catch not found with id: " + id));
+                .map(catchRecord -> {
+                    catchRecord.setFishSpecies(newCatch.getFishSpecies());
+                    catchRecord.setLocation(newCatch.getLocation());
+                    catchRecord.setQuantity(newCatch.getQuantity());
+                    return catchRepository.save(catchRecord);
+                }).orElseGet(() -> {
+                    newCatch.setId(id);
+                    return catchRepository.save(newCatch);
+                });
     }
-
-    public Catch updateCatch(Long id, Catch updatedCatch) {
-        Catch existingCatch = catchRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Catch not found with id: " + id));
-
-        existingCatch.setQuantity(updatedCatch.getQuantity());
-
-        // Save and return the updated catch
-        return catchRepository.save(existingCatch);
-    }
-
 
     public void deleteCatch(Long id) {
         catchRepository.deleteById(id);

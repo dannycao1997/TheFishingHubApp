@@ -23,7 +23,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestParam String username, @RequestParam String password) {
         User user = userService.validateUser(username, password);
-        return user != null ? ResponseEntity.ok(user) : ResponseEntity.status(401).body(null);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.status(401).build();
     }
 
     @GetMapping

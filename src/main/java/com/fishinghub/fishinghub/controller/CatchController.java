@@ -19,12 +19,7 @@ public class CatchController {
     @PostMapping
     public ResponseEntity<Catch> logCatch(@RequestBody Catch catchRecord) {
         Catch newCatch = catchService.logCatch(catchRecord);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newCatch.getId())
-                .toUri();
-        return ResponseEntity.created(location).body(newCatch);
+        return ResponseEntity.status(201).body(newCatch);
     }
 
     @GetMapping
