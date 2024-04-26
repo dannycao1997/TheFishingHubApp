@@ -34,18 +34,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable) // disabling csrf protection
+                .csrf(AbstractHttpConfigurer::disable) // Disabling CSRF protection for simplicity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/catches/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/catches").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/api/catches/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/catches/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/catches/**").hasRole("USER")
-                        .anyRequest().permitAll())
-                .httpBasic(httpBasic -> {}) // keeping basic HTTP authentication setup
+                        .anyRequest().permitAll()) // Permit all requests without any authentication
                 .build();
     }
-
 }

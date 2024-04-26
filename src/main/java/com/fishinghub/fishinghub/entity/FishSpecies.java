@@ -11,7 +11,7 @@ public class FishSpecies {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(length = 10000)
     private String description;
 
     public FishSpecies() {

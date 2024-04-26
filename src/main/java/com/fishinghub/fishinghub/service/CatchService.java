@@ -34,9 +34,7 @@ public class CatchService {
         Catch existingCatch = catchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Catch not found with id: " + id));
 
-        // Update the existing catch with the new values
         existingCatch.setQuantity(updatedCatch.getQuantity());
-        // Update any other fields as needed
 
         // Save and return the updated catch
         return catchRepository.save(existingCatch);

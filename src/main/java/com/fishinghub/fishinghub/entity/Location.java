@@ -1,6 +1,8 @@
 package com.fishinghub.fishinghub.entity;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "locations")
 public class Location {
@@ -12,13 +14,13 @@ public class Location {
     private String name;
 
     @Column(nullable = false)
-    private String description;
+    private Double latitude;
 
     @Column(nullable = false)
-    private double latitude;
+    private Double longitude;
 
-    @Column(nullable = false)
-    private double longitude;
+    @OneToMany(mappedBy = "location")
+    private List<Catch> catches;
 
     public Location() {
     }
@@ -40,27 +42,28 @@ public class Location {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
+
+    public List<Catch> getCatches() {
+        return catches;
+    }
+
+    public void setCatches(List<Catch> catches) {
+        this.catches = catches;
+    }
 }
+

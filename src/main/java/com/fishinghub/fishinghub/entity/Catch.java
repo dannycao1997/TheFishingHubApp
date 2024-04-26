@@ -2,6 +2,7 @@ package com.fishinghub.fishinghub.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
+
 @Entity
 @Table(name = "catches")
 public class Catch {
@@ -9,21 +10,20 @@ public class Catch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fish_species_id", nullable = false)
-    private FishSpecies fishSpecies;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "location_id")
     private Location location;
 
+    @ManyToOne
+    @JoinColumn(name = "fish_species_id")
+    private FishSpecies fishSpecies;
+
     @Column(nullable = false)
-    @Min(1)
-    private int quantity;
+    private Integer quantity;
 
     public Catch() {}
 
@@ -44,14 +44,6 @@ public class Catch {
         this.user = user;
     }
 
-    public FishSpecies getFishSpecies() {
-        return fishSpecies;
-    }
-
-    public void setFishSpecies(FishSpecies fishSpecies) {
-        this.fishSpecies = fishSpecies;
-    }
-
     public Location getLocation() {
         return location;
     }
@@ -60,11 +52,22 @@ public class Catch {
         this.location = location;
     }
 
-    public int getQuantity() {
+    public FishSpecies getFishSpecies() {
+        return fishSpecies;
+    }
+
+    public void setFishSpecies(FishSpecies fishSpecies) {
+        this.fishSpecies = fishSpecies;
+    }
+
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    // Getters and Setters
+
 }
